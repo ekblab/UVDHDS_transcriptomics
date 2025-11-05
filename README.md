@@ -27,25 +27,23 @@ The **UVDHDS** project (*"Effects of UV exposition on differentiation of human d
 UVDHDS_transcriptomics/
 │
 ├── data/ # Processed data (counts, metadata, etc.)
-├── scripts/ # R / Python analysis scripts
-├── figures/ # Reproducible figure generation
+├── R/ # R analysis scripts
 ├── results/ # Output tables, GO analysis, DE genes, etc.
-├── docs/ # Supplementary notes or methods
 └── README.md # You are here
 ```
 
 ## Main analyses included
 - Quality control and normalization of bulk RNA-seq data  
-- Differential expression analysis (DESeq2 / edgeR)  
+- Differential expression analysis (DESeq2)  
 - Gene Ontology and pathway enrichment (clusterProfiler)  
-- Transcription factor and upstream regulator inference (IPA / DoRothEA)  
-- Visualization of key genes and pathways related to UV response and melanocyte differentiation  
+- Transcription factor and upstream regulator inference (IPA)  
 
 ---
 
 ## Reproducibility
 All analyses were performed using R (≥4.5.0).  
 Dependencies are listed in `sessionInfo.txt`.
+Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via devtools::install_github("mbender1992/ekbSeq")
 
 ---
 
