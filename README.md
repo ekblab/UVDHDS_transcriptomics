@@ -32,6 +32,8 @@ UVDHDS_transcriptomics/
 └── README.md # You are here
 ```
 
+The data folder contains counts of 2 runs which were merged as technical replicates. The metadata object contains combined data from the UVDHDS_transcriptomics and UVDHDS_irradiation study as some of the datasets were sequenced together to save resources and increase cost-efficiency. Pathway information for KEGG/Reactome pathways were retrieved from: https://www.gsea-msigdb.org/gsea/msigdb. Results from ingenuity pathway analysis (IPA, Qiagen) were exported as .xls and converted to the more modern .xlsx format.    
+
 ## Main analyses included
 - Quality control and normalization of bulk RNA-seq data  
 - Differential expression analysis (DESeq2)  
