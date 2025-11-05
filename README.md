@@ -42,7 +42,7 @@ UVDHDS_transcriptomics/
 
 ## Reproducibility
 All analyses were performed using R (≥4.5.0).  
-Dependencies are listed in `sessionInfo.txt`.
+Dependencies are listed in `sessionInfo.txt`.  
 Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via devtools::install_github("mbender1992/ekbSeq")
 
 ---
