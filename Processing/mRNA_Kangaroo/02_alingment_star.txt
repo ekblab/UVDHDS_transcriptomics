@@ -1,0 +1,19 @@
+STAR --runThreadN ${nr_threads} \
+    --readFilesCommand zcat \
+    --genomeDir ${genomeDir} \
+    --readFilesIn ${R1} \
+    --outFilterType BySJout \
+    --outFilterMultimapNmax 200 \
+    --alignSJoverhangMin 8 \
+    --alignSJDBoverhangMin 1 \
+    --outFilterMismatchNmax 999 \
+    --outFilterMismatchNoverLmax 0.6 \
+    --alignIntronMin 20 \
+    --alignIntronMax 1000000 \
+    --alignMatesGapMax 1000000 \
+    --limitOutSJcollapsed 5000000 \
+    --limitIObufferSize 200000000 \
+    --outSAMattributes NH HI NM \
+    --outSAMtype BAM Unsorted \
+    --outFileNamePrefix ${prefix_for_outdir}
+    --outTmpDir "${prefix_for_outdir}/tmp

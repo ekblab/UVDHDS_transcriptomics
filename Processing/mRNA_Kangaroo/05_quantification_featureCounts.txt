@@ -1,0 +1,3 @@
+featureCounts -s 1 -t exon -g gene_id -a ${gtf} -o ${tmp_unique} ${alignment} && awk 'NR>=3{printf("%s\t%s\n",$1,$NF)}' ${tmp_unique} | gzip > ${unique.count.gz}
+featureCounts -s 1 -t exon -g gene_id -a ${gtf} -o ${tmp_multimapper} -M ${alignment} && awk 'NR>=3{printf("%s\t%s\n",$1,$NF)}' ${tmp_multimapper} | gzip > ${multimapper.count.gz}
+featureCounts -s 1 -t exon -g gene_id -a ${gtf} -o ${tmp_multimapper_avg} -M --fraction ${alignment} && awk 'NR>=3{printf("%s\t%s\n",$1,$NF)}' ${tmp_multimapper_avg} | gzip > ${multimapper_avg.count.gz}
