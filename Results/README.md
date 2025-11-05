@@ -1,0 +1,1 @@
+These empty folders represent the folder structure and are included for easy reproducibility as scripts store data in these folders. 

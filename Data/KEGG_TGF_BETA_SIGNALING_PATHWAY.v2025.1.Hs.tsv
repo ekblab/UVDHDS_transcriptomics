@@ -1,0 +1,19 @@
+STANDARD_NAME	KEGG_TGF_BETA_SIGNALING_PATHWAY
+SYSTEMATIC_NAME	M2642
+COLLECTION	C2:CP:KEGG_LEGACY
+MSIGDB_URL	https://www.gsea-msigdb.org/gsea/msigdb/human/geneset/KEGG_TGF_BETA_SIGNALING_PATHWAY
+NAMESPACE	Human_NCBI_Gene_ID
+DESCRIPTION_BRIEF	TGF-beta signaling pathway
+DESCRIPTION_FULL	The transforming growth factor-beta (TGF-beta) family members, which include TGF-betas, activins and bone morphogenetic proteins (BMPs), are structurally related secreted cytokines found in species ranging from worms and insects to mammals. A wide spectrum of cellular functions such as proliferation, apoptosis, differentiation and migration are regulated by TGF-beta family members. TGF-beta family member binds to the Type II receptor and recruits Type I, whereby Type II receptor phosphorylates and activates Type I. The Type I receptor, in turn, phosphorylates receptor-activated Smads ( R-Smads: Smad1, Smad2, Smad3, Smad5, and Smad8). Once phosphorylated, R-Smads associate with the co-mediator Smad, Smad4, and the heteromeric complex then translocates into the nucleus. In the nucleus, Smad complexes activate specific genes through cooperative interactions with other DNA-binding and coactivator (or co-repressor) proteins.
+PMID	
+GEOID	
+AUTHORS	
+CONTRIBUTOR	KEGG
+CONTRIBUTOR_ORG	Kyoto Encyclopedia of Genes and Genomes
+EXACT_SOURCE	hsa04350
+FILTERED_BY_SIMILARITY	
+EXTERNAL_NAMES_FOR_SIMILAR_TERMS	
+EXTERNAL_DETAILS_URL	http://www.genome.jp/pathway/hsa04350
+SOURCE_MEMBERS	1030,10468,10637,130399,1311,1387,151449,1634,1874,1875,2033,268,269,3397,3398,3399,3400,3458,353500,3624,3625,3626,387,392255,4052,4086,4087,4088,4089,4090,4091,4092,4093,4609,4838,5308,5515,5516,5518,5519,5594,5595,57154,5933,5934,6093,6198,6199,64750,650,6500,652,653,654,655,656,657,658,659,6667,7027,7040,7042,7043,7044,7046,7048,7057,7058,7059,7060,7124,728622,8200,83729,8454,8646,90,92,9241,93,9372,94,9475,9765,9978
+GENE_SYMBOLS	CDKN2B,FST,LEFTY1,ACVR1C,COMP,CREBBP,GDF7,DCN,E2F4,E2F5,EP300,AMH,AMHR2,ID1,ID2,ID3,ID4,IFNG,BMP8A,INHBA,INHBB,INHBC,RHOA,GDF6,LTBP1,SMAD1,SMAD2,SMAD3,SMAD4,SMAD5,SMAD6,SMAD7,SMAD9,MYC,NODAL,PITX2,PPP2CA,PPP2CB,PPP2R1A,PPP2R1B,MAPK1,MAPK3,SMURF1,RBL1,RBL2,ROCK1,RPS6KB1,RPS6KB2,SMURF2,BMP2,SKP1,BMP4,BMP5,BMP6,BMP7,BMP8B,BMPR1A,BMPR1B,BMPR2,SP1,TFDP1,TGFB1,TGFB2,TGFB3,LEFTY2,TGFBR1,TGFBR2,THBS1,THBS2,THBS3,THBS4,TNF,SKP1P2,GDF5,INHBE,CUL1,CHRD,ACVR1,ACVR2A,NOG,ACVR2B,ZFYVE9,ACVRL1,ROCK2,ZFYVE16,RBX1
+FOUNDER_NAMES	
