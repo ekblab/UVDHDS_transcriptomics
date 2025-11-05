@@ -11,12 +11,53 @@ This repository specifically covers **bulk RNA-seq transcriptomic profiling** of
 
 ---
 
+## Project context
+The **UVDHDS** project (*"Effects of UV exposition on differentiation of human dermal stem cells in melanomagenesis"*) is part of the molecular cell biology program at the  
+**Laboratory for Molecular Cell Biology (LMZ), Elbe Klinikum Buxtehude, Germany.**
+
+### Planned publications
+- **UVDHDS_transcriptomics:** Bulk RNA-seq profiling of dermal stem cells compared to their melanocyte progeny
+- **UVDHDS_irradiation:** Cellular and transcriptional dynamics after (repeated) UV irradiation  
+- **UVDHDS_scRNAseq:** Single-cell RNA-seq tracing of DSC differentiation trajectories  
+
+---
+
 ## Repository Structure
-```UVDHDS_transcriptomics/
+```
+UVDHDS_transcriptomics/
 │
 ├── data/ # Processed data (counts, metadata, etc.)
 ├── scripts/ # R / Python analysis scripts
 ├── figures/ # Reproducible figure generation
 ├── results/ # Output tables, GO analysis, DE genes, etc.
 ├── docs/ # Supplementary notes or methods
-└── README.md # You are here```
+└── README.md # You are here
+```
+
+## Main analyses included
+- Quality control and normalization of bulk RNA-seq data  
+- Differential expression analysis (DESeq2 / edgeR)  
+- Gene Ontology and pathway enrichment (clusterProfiler)  
+- Transcription factor and upstream regulator inference (IPA / DoRothEA)  
+- Visualization of key genes and pathways related to UV response and melanocyte differentiation  
+
+---
+
+## Reproducibility
+All analyses were performed using R (≥4.5.0).  
+Dependencies are listed in `sessionInfo.txt`.
+
+---
+
+## Contact
+**ekblab** – Laboratory for Molecular Cell Biology.  
+Elbe Klinikum Buxtehude, Germany.  
+marc.bender@elbekliniken.de 
+
+---
+
+## LICENSE
+This project is distributed under the MIT License (see LICENSE).
+
+
+
