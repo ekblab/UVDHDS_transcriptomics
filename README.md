@@ -45,7 +45,7 @@ The data folder contains counts of 2 runs which were merged as technical replica
 ## Reproducibility
 All analyses were performed using R (≥4.5.1).  
 Dependencies are listed in `sessionInfo.txt`.  
-Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via devtools::install_github("mbender1992/ekbSeq")
+Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via *devtools::install_github("mbender1992/ekbSeq")*
 
 ---
 
