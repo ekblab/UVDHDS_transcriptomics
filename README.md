@@ -17,7 +17,7 @@ The **UVDHDS** project (*"Effects of UV exposition on differentiation of human d
 
 ### Planned publications
 - **UVDHDS_transcriptomics:** Bulk RNA-seq profiling of dermal stem cells compared to their melanocyte progeny
-- **UVDHDS_UVresponse:** Cellular and transcriptional dynamics after (repeated) UV irradiation  
+- **UVDHDS_irradiation:** Cellular and transcriptional dynamics after (repeated) UV irradiation  
 - **UVDHDS_scRNAseq:** Single-cell RNA-seq tracing of DSC differentiation trajectories  
 
 ---
@@ -33,4 +33,31 @@ UVDHDS_transcriptomics/
 ├── docs/ # Supplementary notes or methods
 └── README.md # You are here
 ```
+
+## Main analyses included
+- Quality control and normalization of bulk RNA-seq data  
+- Differential expression analysis (DESeq2 / edgeR)  
+- Gene Ontology and pathway enrichment (clusterProfiler)  
+- Transcription factor and upstream regulator inference (IPA / DoRothEA)  
+- Visualization of key genes and pathways related to UV response and melanocyte differentiation  
+
+---
+
+## Reproducibility
+All analyses were performed using R (≥4.5.0).  
+Dependencies are listed in `sessionInfo.txt`.
+
+---
+
+## Contact
+**ekblab** – Laboratory for Molecular Cell Biology
+Elbe Klinikum Buxtehude, Germany
+marc.bender@elbekliniken.de 
+
+---
+
+## LICENSE
+This project is distributed under the MIT License (see LICENSE)
+
+
 
