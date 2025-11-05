@@ -50,8 +50,8 @@ Dependencies are listed in `sessionInfo.txt`.
 ---
 
 ## Contact
-**ekblab** – Laboratory for Molecular Cell Biology.
-Elbe Klinikum Buxtehude, Germany.
+**ekblab** – Laboratory for Molecular Cell Biology.  
+Elbe Klinikum Buxtehude, Germany.  
 marc.bender@elbekliniken.de 
 
 ---
