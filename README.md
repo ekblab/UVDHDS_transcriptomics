@@ -28,12 +28,11 @@ UVDHDS_transcriptomics/
 │
 ├── Data/ # Processed data (counts, metadata, etc.)
 ├── R/ # R analysis scripts
-├── Results/
 ├── sessionInfo.txt # dependencies are listed here
 └── README.md # You are here
 ```
 
-The data folder contains counts of 2 runs which were merged as technical replicates. The metadata object contains combined data from the UVDHDS_transcriptomics and UVDHDS_irradiation study as some of the datasets were sequenced together to save resources and increase cost-efficiency. Pathway information for KEGG/Reactome pathways were retrieved from: https://www.gsea-msigdb.org/gsea/msigdb. Results from ingenuity pathway analysis (IPA, Qiagen) were exported as .xls(x). The R folder contains analysis scripts for data processing, exploratory data analysis (EDA) and differential expression (DE) analysis as well as visualization of IPA results with clusterProfiler-style plots. Due to restriction in file size the results folder only includes dummy folders to mimic the structure of the analysis for easier reproducibility. On request original figures will be provided.  
+The data folder contains counts of 2 runs which were merged as technical replicates. The metadata object contains combined data from the UVDHDS_transcriptomics and UVDHDS_irradiation study as some of the datasets were sequenced together to save resources and increase cost-efficiency. Pathway information for KEGG/Reactome pathways were retrieved from: https://www.gsea-msigdb.org/gsea/msigdb. Results from ingenuity pathway analysis (IPA, Qiagen) were exported as .xls(x). The R folder contains analysis scripts for data processing, exploratory data analysis (EDA) and differential expression (DE) analysis as well as visualization of IPA results with clusterProfiler-style plots. 
 
 ## Main analyses included
 - Quality control and normalization of bulk RNA-seq data  
