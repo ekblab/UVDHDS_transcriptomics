@@ -28,7 +28,8 @@ UVDHDS_transcriptomics/
 │
 ├── Data/ # Processed data (counts, metadata, etc.)
 ├── R/ # R analysis scripts
-├── Results/ 
+├── Results/
+├── sessionInfo.txt # dependencies are listed here
 └── README.md # You are here
 ```
 
