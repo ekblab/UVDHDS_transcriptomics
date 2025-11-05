@@ -26,11 +26,14 @@ The **UVDHDS** project (*"Effects of UV exposition on differentiation of human d
 ```
 UVDHDS_transcriptomics/
 │
-├── data/ # Processed data (counts, metadata, etc.)
+├── Data/ # Processed data (counts, metadata, etc.)
 ├── R/ # R analysis scripts
-├── results/ # Output tables, GO analysis, DE genes, etc.
+├── Results/
+├── sessionInfo.txt # dependencies are listed here
 └── README.md # You are here
 ```
+
+The data folder contains counts of 2 runs which were merged as technical replicates. The metadata object contains combined data from the UVDHDS_transcriptomics and UVDHDS_irradiation study as some of the datasets were sequenced together to save resources and increase cost-efficiency. Pathway information for KEGG/Reactome pathways were retrieved from: https://www.gsea-msigdb.org/gsea/msigdb. Results from ingenuity pathway analysis (IPA, Qiagen) were exported as .xls(x). The R folder contains analysis scripts for data processing, exploratory data analysis (EDA) and differential expression (DE) analysis as well as visualization of IPA results with clusterProfiler-style plots. Due to restriction in file size the results folder only includes dummy folders to mimic the structure of the analysis for easier reproducibility. On request original figures will be provided.  
 
 ## Main analyses included
 - Quality control and normalization of bulk RNA-seq data  
@@ -41,9 +44,9 @@ UVDHDS_transcriptomics/
 ---
 
 ## Reproducibility
-All analyses were performed using R (≥4.5.0).  
+All analyses were performed using R (≥4.5.1).  
 Dependencies are listed in `sessionInfo.txt`.  
-Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via devtools::install_github("mbender1992/ekbSeq")
+Most packages are available on CRAN or bioconductor. Custom functions and wrappers for the analysis are either available in R/functions.R or in the custom package ekbSeq which can be installed via *devtools::install_github("mbender1992/ekbSeq")*
 
 ---
 
