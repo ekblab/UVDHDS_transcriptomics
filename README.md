@@ -26,9 +26,9 @@ The **UVDHDS** project (*"Effects of UV exposition on differentiation of human d
 ```
 UVDHDS_transcriptomics/
 │
-├── data/ # Processed data (counts, metadata, etc.)
+├── Data/ # Processed data (counts, metadata, etc.)
 ├── R/ # R analysis scripts
-├── results/ # Output tables, GO analysis, DE genes, etc.
+├── Results/ # Includes dummy folders to mimic the structure of the analysis for easier reproducibility. On request original figures will be provided. 
 └── README.md # You are here
 ```
 
