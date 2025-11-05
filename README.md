@@ -12,11 +12,13 @@ This repository specifically covers **bulk RNA-seq transcriptomic profiling** of
 ---
 
 ## Repository Structure
-```UVDHDS_transcriptomics/
+```
+UVDHDS_transcriptomics/
 │
 ├── data/ # Processed data (counts, metadata, etc.)
 ├── scripts/ # R / Python analysis scripts
 ├── figures/ # Reproducible figure generation
 ├── results/ # Output tables, GO analysis, DE genes, etc.
 ├── docs/ # Supplementary notes or methods
-└── README.md # You are here```
+└── README.md # You are here
+```
