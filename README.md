@@ -11,6 +11,17 @@ This repository specifically covers **bulk RNA-seq transcriptomic profiling** of
 
 ---
 
+## Project context
+The **UVDHDS** project (*"Effects of UV exposition on differentiation of human dermal stem cells in melanomagenesis"*) is part of the molecular cell biology program at the  
+**Laboratory for Molecular Cell Biology (LMZ), Elbe Klinikum Buxtehude, Germany.**
+
+### Planned publications
+- **UVDHDS_transcriptomics:** Bulk RNA-seq profiling of dermal stem cells compared to their melanocyte progeny
+- **UVDHDS_UVresponse:** Cellular and transcriptional dynamics after (repeated) UV irradiation  
+- **UVDHDS_scRNAseq:** Single-cell RNA-seq tracing of DSC differentiation trajectories  
+
+---
+
 ## Repository Structure
 ```
 UVDHDS_transcriptomics/
@@ -22,3 +33,4 @@ UVDHDS_transcriptomics/
 ├── docs/ # Supplementary notes or methods
 └── README.md # You are here
 ```
+
