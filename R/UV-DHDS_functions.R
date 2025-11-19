@@ -1,6 +1,6 @@
 ## <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<HEAD>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ##*********************************************************************************************************
-## collection of functions used for the DHDS project
+## collection of functions used for the UVDHDS_transcriptomics project
 
 ##*********************************************************************************************************
 ## plot_transcript_dist
@@ -638,6 +638,25 @@ plot_dose_effect <- function(ls, vsd_obj, conditions, cell, time, point.alpha = 
 #   return(p)
 # }
 
+##*********************************************************************************************************
+## plot_control_expression_comparison
+## This function generates boxplots of normalized gene expression values (DESeq2 VSD) 
+## for a given list of genes in control (non-irradiated) samples, comparing DSCs and Melanocytes.
+## Optionally, the plots can be merged to show both cell types for all genes in a single panel, or faceted by gene.
+## Significance is indicated with asterisks above the plots, based on DESeq2 padj values.
+
+## Arguments:
+## vsd.obj        – DESeq2 VSD (variance-stabilized transformation) object containing normalized counts
+## results.object – data frame or DESeq2 results table containing gene annotations (SYMBOL, ENSEMBL, padj columns)
+## genes          – character vector of gene symbols to plot
+## nrow           – number of rows in the facet plot (only if merge.plots = FALSE)
+## ncol           – number of columns in the facet plot (only if merge.plots = FALSE)
+## merge.plots    – logical; if TRUE, boxplots for all genes are shown in one panel with cell types grouped, 
+##                  if FALSE, each gene gets a separate facet
+
+## Returns:
+## A ggplot object showing boxplots of normalized expression for selected genes in DSCs and Melanocytes,
+## with significance annotations ("*", "**", "***") above the plots (based on DESeq2 results).
 plot_control_expression_comparison <- function(
     vsd.obj, 
     results.object, 
