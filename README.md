@@ -14,8 +14,8 @@ This repository specifically covers **bulk RNA-seq transcriptomic profiling** of
 ## Project context
 The **UVDHDS** project (*"Effects of UV exposition on differentiation of human dermal stem cells in melanomagenesis"*) is part of the molecular cell biology program at the  
 
-**Laboratory for Molecular Cell Biology (LMZ), Elbe Klinikum Buxtehude, Germany.** and
-**AG Rapp, Cardoso Lab, Technische Universität Darmstadt, Germany.**
+**Laboratory for Molecular Cell Biology (LMZ), Elbe Klinikum Buxtehude, Germany** and  
+**AG Rapp, Cardoso Lab, Technische Universität Darmstadt, Germany**
 
 ### Planned publications
 - **UVDHDS_transcriptomics:** Bulk RNA-seq profiling of dermal stem cells compared to their melanocyte progeny
