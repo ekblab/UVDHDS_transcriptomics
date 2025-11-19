@@ -5,7 +5,7 @@ Part of the **UVDHDS** project investigating the Effects of **UV** exposition on
 
 ## Overview
 This repository contains the analysis pipeline, processed data, and figure scripts for the first publication associated with the *UVDHDS* project. 
-The study describes for the first time transcriptomic (mRNA, lncRNA, miRNA) differences between dermal stem cells (DSCs) and their melanocyte progeny. This transcriptomic profiling is the foundation for further investigations focussing differentiation process itself as well as UV induced changes. 
+The study describes for the first time transcriptomic (mRNA, lncRNA, miRNA) differences between dermal stem cells (DSCs) and their melanocytic progeny. This transcriptomic profiling is the foundation for further investigations focussing on the differentiation process itself as well as UV induced changes.
 
 This repository specifically covers **bulk RNA-seq transcriptomic profiling** of donor-matched DSCs and melanocytes to establish a transcriptomic "baseline".
 
