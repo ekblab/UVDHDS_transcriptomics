@@ -111,7 +111,7 @@ datScaled <- datScaled[complete.cases(datScaled) & rowSums(is.infinite(datScaled
 ## specify annotation bar
 annoHeatmap <- as.data.frame(colData(vsd_raw)[, c("cell", "donor")])
 colnames(annoHeatmap) <- c("Cell_type", "Donor")
-donors <- colorRampPalette(rev(brewer.pal(n = 7, name = "Set1")))(6)
+donors <- donors <- c("#FFFF33", "#FF7F00", "#984EA3", "#4DAF4A", "#377EB8", "#E41A1C") ## Ensures color compatibility with the mRNA/lncRNA color coding
 names(donors) <- unique(colData(vsd_raw)$donor)
 
 ## specify annotation bar colors
