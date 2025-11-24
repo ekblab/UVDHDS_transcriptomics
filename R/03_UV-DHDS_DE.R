@@ -230,6 +230,3 @@ p <- plot_control_expression_comparison(vsd_adjusted, allRes, merge.plots = FALS
 export_plot_dual("Results/mRNA/TGF_beta_boxplots", p, width = 8, height = 4)
 
 
-
-
-
