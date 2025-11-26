@@ -40,7 +40,7 @@ colnames(samplePoisDistMatrix) <- NULL
 colorsPoisd <- colorRampPalette(rev(RColorBrewer::brewer.pal(9, "Blues")))(255)
 
 ## plot heatmap
-export_plot_dual("Results/mRNA/heatmap_poisson_distance", quote({
+export_plot_dual("../Results/UVDHDS_Transcriptomics/mRNA/heatmap_poisson_distance", quote({
   pheatmap(samplePoisDistMatrix,
            clustering_distance_rows=poisd$dd,
            clustering_distance_cols=poisd$dd,
