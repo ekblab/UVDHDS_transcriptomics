@@ -60,16 +60,6 @@ sigRes <- allRes[!is.na(allRes$padj) & allRes$padj < pThres,]
 ## save results
 openxlsx::write.xlsx(allRes, "Results/mRNA/Melanocytes_vs_DSCs_shrunken_LFC.xlsx")
 
-# plot with original lfc
-export_plot_dual("Results/mRNA/MA_plot_original", quote({
-  plotMA(res, ylim = c(-6, 6), alpha = pThres, colSig = "red2", colNonSig = "grey30", main = "MA plot with original log fold changes")
-}), width = 9, height = 6, dpi = 600)
-
-# shrink estimates and exlpore differences in MA plots
-export_plot_dual("Results/mRNA/MA_plot_shrunken", quote({
-  plotMA(resShrunk, ylim = c(-6, 6), alpha = pThres, colSig = "red2", colNonSig = "grey30", main = "MA plot with shrunken log fold changes")
-}), width = 9, height = 6, dpi = 600)
-
 ##*********************************************************************************************************
 ## Transcript distribution
 
@@ -118,7 +108,7 @@ export_plot_dual("Results/mRNA/volcano_markers", p, width = 10, height = 8)
 ## Venn diagram of exclusively expressed genes in DSCs and Melanocytes
 
 ## plo and save venn diagram
-p_venn <-  extract_and_plot_venn(dds, results_object = allRes, pThres = pThres)
+p_venn <-  extract_and_plot_venn(dds, results_object = allRes, pThres = pThres, outdir = "Results/mRNA")
 export_plot_dual("Results/mRNA/venn_diagram_dsc_vs_melanocytes", p_venn, width = 9, height = 6)
 
 ##*********************************************************************************************************
@@ -194,6 +184,18 @@ export_plot_dual("Results/mRNA/TGF_beta_network_boxplots_genes", p, width = 5.2,
 
 p <- plot_control_expression_comparison(vsd_adjusted, allRes, merge.plots = TRUE, genes = c("MEG3", "LINC00520")) 
 export_plot_dual("Results/mRNA/TGF_beta_network_boxplots_lncRNA", p, width = 1.8, height = 2.6)
+
+##*********************************************************************************************************
+## Marker gene analysis
+
+## DSC markers
+p <- plot_control_expression_comparison(vsd_adjusted, allRes, factorize = FALSE, merge.plots = TRUE, genes = c("GABRA2", "NRXN1", "KIRREL3", "LPAR1", "SLITRK6", "NTRK3", "NGFR", "COL1A1", "ELN", "CDH6", "CLDN4", "SOX2", "ID1", "KLF4", "NES", "SNAI1", "MSX1")) 
+export_plot_dual("Results/mRNA/DSC_markers", p, width = 7, height = 4)
+
+## melanocyte markers
+p <- plot_control_expression_comparison(vsd_adjusted, allRes, factorize = FALSE, merge.plots = TRUE, genes = c("MLANA", "MITF", "OCA2", "TYR", "TRPM1", "DCT", "SLC45A2", "TYRP1", "KIT", "CDH1", "CDH3")) 
+export_plot_dual("Results/mRNA/melanocyte_markers", p, width = 5.2, height = 4)
+
 
 ##*********************************************************************************************************
 ## TGFbeta analysis

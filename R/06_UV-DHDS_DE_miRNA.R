@@ -51,16 +51,6 @@ sigRes <- allRes[!is.na(allRes$padj) & allRes$padj < pThres,]
 ## save results
 openxlsx::write.xlsx(rownames_to_column(allRes, "miRNA"), "Results/miRNA/Melanocytes_vs_DSCs_shrunken_LFC.xlsx")
 
-# plot with original lfc
-svg("Results/miRNA/MA_plot_original.svg", width=9, height=6)
-plotMA(res, ylim = c(-6, 6), alpha = pThres, colSig = "red2", colNonSig = "grey30", main = "MA plot with original log fold changes")
-dev.off()
-
-# shrink estimates and exlpore differences in MA plots
-svg("Results/miRNA/MA_plot_shrunken.svg", width=9, height=6)
-plotMA(resShrunk, ylim = c(-6, 6), alpha = pThres, colSig = "red2", colNonSig = "grey30", main = "MA plot with shrunken log fold changes")
-dev.off()
-
 ##*********************************************************************************************************
 ## Volcano plots
 
@@ -83,13 +73,12 @@ export_plot_dual("Results/miRNA/volcano_topSignif", p, width = 10, height = 8)
 
 ## plot targets of lncRNA
 p <- EnhancedVolcano(as.data.frame(dat_volcano), lab = rownames(dat_volcano), selectLab = c("hsa-miR-125b-5p", "hsa-miR-125a-3p", "hsa-miR-125a-5p", "hsa-miR-27b-3p", "hsa-miR-34a-3p", "hsa-miR-34a-5p"),
-                     x = 'log2FoldChange', y = 'padj', gridlines.major = FALSE, gridlines.minor = FALSE, raster = TRUE
+                     x = 'log2FoldChange', y = 'padj', gridlines.major = FALSE, gridlines.minor = FALSE, raster = TRUE,
                      xlim = c(-12, 12), ylim = c(-5, 60), title = 'Melanocytes vs. DSCs', drawConnectors = TRUE, arrowheads = FALSE,
                      pCutoff = pThres, FCcutoff = 1, pointSize = 2, labSize = labSize) 
 
 ## save plot
 export_plot_dual("Results/miRNA/volcano_lncTargets", p, width = 10, height = 8)
-
 
 ##*********************************************************************************************************
 ## Heatmap
@@ -150,7 +139,7 @@ export_plot_dual("Results/miRNA/Heatmap", quote({
 
 ##*********************************************************************************************************
 ## Venn diagram of exclusively expressed genes in DSCs and Melanocytes
-p_venn <-  extract_and_plot_venn(dds, results_object = allRes, pThres = pThres)
+p_venn <-  extract_and_plot_venn(dds, results_object = allRes, pThres = pThres, output_dir = "Results/miRNA")
 export_plot_dual("Results/miRNA/venn_diagram_dsc_vs_melanocytes", p_venn, width = 9, height = 6)
 
 ## plot targets of lncRNA

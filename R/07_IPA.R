@@ -43,8 +43,8 @@ dat_pw_down <- dat_pw %>% filter(z_score < 0 & padj < 0.05)
 p1 <- ipa_bubble_plot(dat_pw_up, name_col = "Ingenuity_Canonical_Pathways", name_label = "upregulated IPA pathways")
 p2 <- ipa_bubble_plot(dat_pw_down, name_col = "Ingenuity_Canonical_Pathways", name_label = "downregulated IPA pathways")
 
-export_plot_dual("Results/mRNA/IPA/upregulated_pathways", p1, width = 6.5, height = 4)
-export_plot_dual("Results/mRNA/IPA/downregulated_pathways", p2, width = 6.2, height = 4)
+export_plot_dual("Results/IPA/upregulated_pathways", p1, width = 6.5, height = 4)
+export_plot_dual("Results/IPA/downregulated_pathways", p2, width = 6.2, height = 4)
 
 ##*********************************************************************************************************
 ## Upstream regulators
@@ -57,5 +57,5 @@ p1 <- ipa_bubble_plot(dat_upstream_up, name_col = "Upstream_Regulator", score_co
 p2 <- ipa_bubble_plot(dat_upstream_down, name_col = "Upstream_Regulator", score_col = "Activation_z_score", pval_col = "p_value_of_overlap",
                                   genes_col = "Target_Molecules_in_Dataset", name_label = "downregulated upstream regulators")
 
-export_plot_dual("Results/mRNA/IPA/upregulated_upstream_regulators", p1, width = 6.5, height = 4)
-export_plot_dual("Results/mRNA/IPA/downregulated_upstream_regulators", p2, width = 4.1, height = 4)
+export_plot_dual("Results/IPA/upregulated_upstream_regulators", p1, width = 6.5, height = 4)
+export_plot_dual("Results/IPA/downregulated_upstream_regulators", p2, width = 4.1, height = 4)

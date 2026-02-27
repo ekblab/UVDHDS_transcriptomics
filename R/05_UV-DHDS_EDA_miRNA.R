@@ -35,33 +35,31 @@ colnames(samplePoisDistMatrix) <- NULL
 colorsPoisd <- colorRampPalette(rev(RColorBrewer::brewer.pal(9, "Blues")))(255)
 
 ## plot heatmap
-svg("Results/heatmap_poisson_distance.svg", width=30, height=25)
-pheatmap(samplePoisDistMatrix,
-         clustering_distance_rows=poisd$dd,
-         clustering_distance_cols=poisd$dd,
-         col=colorsPoisd)
-dev.off()
+export_plot_dual("Results/miRNA/heatmap_poisson_distance", quote({
+  p <- pheatmap(samplePoisDistMatrix,
+           clustering_distance_rows=poisd$dd,
+           clustering_distance_cols=poisd$dd,
+           col=colorsPoisd)
+  print(p)
+}), width = 10, height = 8, dpi = 300)
 
 ##******
 ## check for outliers
-svg("Results/cooks_distance.svg", width=15, height=6)
-par(mar = c(8, 5, 2, 2))
-boxplot(log10(assays(dds)[["cooks"]]), range = 0, las = 2)
-title("Cooks distance across samples")
-dev.off()
-
+export_plot_dual("Results/miRNA/cooks_distance", quote({
+  par(mar = c(16, 5, 2, 2))
+  boxplot(log10(assays(dds)[["cooks"]]), range = 0, las = 2)
+  title("Cooks distance across samples")
+}), width = 7, height = 5, dpi = 300)
 
 ##******
 ## plot PCA for potential batch effects
-p1 <- pca_plot(data = vsd_raw, pcsToUse = 1:2, intgroup = c("donor", "cell"), 
+p <- pca_plot(data = vsd_raw, pcsToUse = 1:2, intgroup = c("donor", "cell"), 
          title = "PCA with unadjusted VST data", subtitle = "PC1 vs. PC2")
-ggsave("Results/PCA_batch.svg", p1,  width = 7.5, height = 6)
+export_plot_dual("Results/miRNA/PCA",  p,  width = 4, height = 3)
 
 ##******
 ##* Plot dispersion
-svg("Results/dispersion.svg", width= 7, height= 5)
-plotDispEsts(dds)
-dev.off()
-
-
+export_plot_dual("Results/miRNA/dispersion", quote({
+  plotDispEsts(dds)
+}), width = 6, height = 4, dpi = 300)
 

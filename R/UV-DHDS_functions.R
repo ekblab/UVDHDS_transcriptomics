@@ -48,7 +48,7 @@ extract_and_plot_venn <- function(dds, results_object,
                                   pThres = 0.05, 
                                   expression_threshold = 1,
                                   biotype_filter = NULL,
-                                  output_dir = "Results/cell_line", 
+                                  output_dir = "Results/", 
                                   plot_title = NULL) {
   
   # Ensure output directory exists
@@ -267,20 +267,30 @@ plot_biotype_heatmap <- function(dds, vsd, results_object,
 ## genes          – character vector of gene symbols to plot
 ## nrow           – number of rows in the facet plot (only if merge.plots = FALSE)
 ## ncol           – number of columns in the facet plot (only if merge.plots = FALSE)
+## factorize      - logical; if TRUE, genes will changed to factor for sorting purposes and displayed in the order provided in the input vector.
 ## merge.plots    – logical; if TRUE, boxplots for all genes are shown in one panel with cell types grouped, 
+## p.size         – size of the p.value annotation (either padj or stars)
+## sig.anno       – character indicating whether pvalue should be displayed as "stars" or "padj". 
 ##                  if FALSE, each gene gets a separate facet
 
 ## Returns:
 ## A ggplot object showing boxplots of normalized expression for selected genes in DSCs and Melanocytes,
 ## with significance annotations ("*", "**", "***") above the plots (based on DESeq2 results).
+
 plot_control_expression_comparison <- function(
     vsd.obj, 
     results.object, 
     genes, 
     nrow = NULL, 
     ncol = NULL,
-    merge.plots = FALSE
+    factorize = FALSE,
+    merge.plots = FALSE,
+    p.size = 5, 
+    sig.anno = c("stars", "padj")
 ) {
+  
+  sig.anno <- match.arg(sig.anno)
+  
   ## Extract expression matrix
   vsd_counts <- assay(vsd.obj)
   metadata <- colData(vsd.obj)
@@ -311,28 +321,38 @@ plot_control_expression_comparison <- function(
     pivot_longer(cols = -sample, names_to = "gene", values_to = "vsd") %>% 
     left_join(as.data.frame(metadata), by = "sample")
   
-  ## Add significance annotations
-  sig_annotations <- results.object %>%
+ sig_annotations <- results.object %>%
     filter(SYMBOL %in% genes) %>%
-    mutate(label = case_when(
-      is.na(padj)        ~ "",
-      padj < 0.001       ~ "***",
-      padj < 0.01        ~ "**",
-      padj < 0.05        ~ "*",
-      TRUE               ~ ""
-    )) %>%
+    mutate(
+      stars = case_when(
+        is.na(padj)  ~ "",
+        padj < 0.001 ~ "***",
+        padj < 0.01  ~ "**",
+        padj < 0.05  ~ "*",
+        TRUE         ~ ""
+      ),
+      label = case_when(
+        sig.anno == "stars" ~ stars,
+        sig.anno == "padj"  ~ paste0("padj = ", formatC(padj, format = "E", digits = 1))
+      )
+    ) %>%
     dplyr::select(SYMBOL, label) %>%
     distinct()
   
   df_long <- df_long %>%
     left_join(sig_annotations, by = c("gene" = "SYMBOL"))
   
+  if(factorize == TRUE){
+    df_long <-  df_long %>%
+      mutate(gene = factor(gene, levels = genes))
+  }
+  
   ## Universal ggplot components
   fill_vals <- c("DSC" = "#CD534CFF", "Melanocytes" = "#0073C2FF")
   text_anno <- geom_text(
     data = distinct(df_long, gene, label),
     aes(label = label, x = if(merge.plots) gene else 2, y = Inf),
-    vjust = 1.2, inherit.aes = FALSE, size = 5
+    vjust = 1.2, inherit.aes = FALSE, size = p.size
   )
   
   ## Construct plot depending on 'merge'
@@ -382,5 +402,146 @@ read_edgeR_counts <- function(counts.file){
   counts_edgeR <- apply(counts_edgeR, 2, as.numeric)
   rownames(counts_edgeR) <- names 
   as.data.frame(counts_edgeR)
+}
+
+##*********************************************************************************************************
+#' Bubble plot (clusterProfiler style) for GO / enrichResult data.frames
+#'
+#' Build a bubble plot showing terms on the y-axis, a scoring metric on the x-axis
+#' (e.g. GeneRatio or Count), bubble size proportional to the number of member genes,
+#' and bubble colour mapped to a p-value. The function sorts results by p-value
+#' (keeps the top N) and reorders the y-axis by score for clear visual representation.
+#'
+#' Works with clusterProfiler/enrichResult data.frames (e.g. output of as.data.frame(enrichGO/compareCluster))
+#' or any data.frame that contains:
+#' - a column with term names,
+#' - a scoring metric (can be numeric, or a ratio string like "5/200" for GeneRatio),
+#' - a p-value column,
+#' - and a column listing member genes (slash- or comma-separated).
+#'
+#' @param df data.frame Input results table.
+#' @param name_col string Name of the column in df that contains the term (e.g. "Description" or "term").
+#' @param score_col string Column name for the scoring metric to plot on the x-axis. Default "GeneRatio".
+#'        If this column is a string like "5/200" it will be converted to 5/200 = 0.025.
+#' @param pval_col string Column name containing p-values to map to colour. Default "p.adjust".
+#' @param genes_col string Column name containing group member identifiers (used to compute bubble size).
+#'        Members may be slash- or comma-separated strings. Default "geneID".
+#' @param top_n integer Number of top terms to keep after sorting by p-value. Default 20.
+#' @param color_scale character(2) Two colours giving the low and high ends of the colour scale.
+#'        Default c("lightgrey", "#CD534CFF").
+#' @param size_range numeric(2) Range of point sizes for ggplot2::scale_size_continuous. Default c(3, 10).
+#' @param name_label string Text used in the plot title along with top_n (e.g. "enriched GO terms"). Default "Terms".
+#' @param rotate_x logical If TRUE rotate x-axis labels 45 degrees. Default FALSE.
+#'
+#' @return A ggplot2 object (bubble plot).
+#' @export
+bubble_plot_clusterprofiler_style <- function(
+    df,
+    name_col,
+    score_col = "GeneRatio",
+    pval_col = "p.adjust",
+    genes_col = "geneID",
+    top_n = 20,
+    color_scale = c("lightgrey", "#CD534CFF"),
+    size_range = c(3, 10),
+    name_label = "Terms",
+    rotate_x = FALSE
+) {
+  # require packages (do not attach; assume user has them)
+  if (!requireNamespace("ggplot2", quietly = TRUE)) stop("ggplot2 required but not installed")
+  if (!requireNamespace("dplyr", quietly = TRUE)) stop("dplyr required but not installed")
+  if (!requireNamespace("rlang", quietly = TRUE)) stop("rlang required but not installed")
+  
+  stopifnot(is.data.frame(df))
+  stopifnot(all(c(name_col, score_col, pval_col, genes_col) %in% colnames(df)))
+  
+  # helper to parse a possible ratio string like "5/200" -> numeric 5/200
+  parse_ratio_safe <- function(x) {
+    # if already numeric, return as.numeric
+    if (is.numeric(x)) return(as.numeric(x))
+    x_chr <- as.character(x)
+    # if contains "/", compute numerator/denominator
+    if (any(grepl("/", x_chr, fixed = TRUE), na.rm = TRUE)) {
+      sapply(x_chr, function(xx) {
+        if (is.na(xx) || xx == "") return(NA_real_)
+        if (!grepl("/", xx, fixed = TRUE)) {
+          # fallback to numeric coercion
+          out <- suppressWarnings(as.numeric(xx))
+          if (is.na(out)) return(NA_real_) else return(out)
+        }
+        parts <- strsplit(xx, "/", fixed = TRUE)[[1]]
+        num <- suppressWarnings(as.numeric(parts[1]))
+        den <- suppressWarnings(as.numeric(parts[2]))
+        if (is.na(num) || is.na(den) || den == 0) return(NA_real_)
+        num / den
+      }, USE.NAMES = FALSE)
+    } else {
+      # try numeric coercion
+      out <- suppressWarnings(as.numeric(x_chr))
+      out
+    }
+  }
+  
+  plot_df <- df %>%
+    dplyr::mutate(
+      # compute gene counts from genes_col (split on "/" or ",")
+      n_genes = ifelse(
+        is.na(.data[[genes_col]]),
+        NA_integer_,
+        sapply(strsplit(as.character(.data[[genes_col]]), "/|,"), function(v) length(v))
+      ),
+      # parse score column: accept ratios like "5/200" or numeric values
+      score = parse_ratio_safe(.data[[score_col]]),
+      pval = as.numeric(.data[[pval_col]]),
+      name = as.character(.data[[name_col]])
+    ) %>%
+    dplyr::filter(!is.na(score), !is.na(pval))
+  
+  if (nrow(plot_df) == 0) {
+    stop("No rows with non-missing score and p-value after coercion.")
+  }
+  
+  # Sort and select top_n by p-value ascending
+  plot_df <- plot_df %>%
+    dplyr::arrange(pval) %>%
+    dplyr::slice(seq_len(min(top_n, nrow(.))))
+  
+  # If no gene counts computed (all NA), try to compute from gene column again more robustly:
+  if (all(is.na(plot_df$n_genes))) {
+    plot_df$n_genes <- sapply(strsplit(as.character(plot_df[[genes_col]]), "/|,"), function(v) if (length(v) == 1 && v == "") 0L else length(v))
+  }
+  
+  # Check if all scores are negative (flip axis if true) - kept for consistency with clusterProfiler-style
+  all_negative <- all(plot_df$score < 0, na.rm = TRUE)
+  
+  # Reorder y-axis so items are ordered by score (lowest at top). This mirrors clusterProfiler visuals.
+  plot_df$name <- factor(plot_df$name, levels = plot_df$name[order(plot_df$score, decreasing = FALSE)])
+  
+  if (all_negative) {
+    # if all negative, reverse so most negative (smallest) is at top
+    plot_df$name <- factor(plot_df$name, levels = plot_df$name[order(plot_df$score, decreasing = TRUE)])
+  }
+  
+  p <- ggplot2::ggplot(plot_df, ggplot2::aes(x = .data$score, y = .data$name, size = .data$n_genes, color = .data$pval)) +
+    ggplot2::geom_point(alpha = 0.8) +
+    ggplot2::scale_size_continuous(range = size_range, name = "Gene count") +
+    # reverse transform so that smaller p-values use the "high" colour
+    ggplot2::scale_color_gradient(low = color_scale[1], high = color_scale[2], name = pval_col, trans = "reverse") +
+    ggplot2::labs(
+      x = score_col,
+      y = "",
+      title = paste("Top", min(top_n, nrow(plot_df)), name_label)
+    ) +
+    ggplot2::theme_bw(base_size = 14) +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 9))
+  
+  if (all_negative) {
+    p <- p + ggplot2::scale_x_reverse()
+  }
+  if (rotate_x) {
+    p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1))
+  }
+  
+  return(p)
 }
 
