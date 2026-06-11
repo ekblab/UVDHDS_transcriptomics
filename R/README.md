@@ -27,6 +27,9 @@ This folder contains all R scripts used for the analysis and visualization withi
 - **07_IPA.R**  
   Ingenuity Pathway Analysis (IPA) workflows and figure generation, including import of IPA results and visualization with custom R scripts.
 
+   **08_SMAD_inhibition.R**  
+ qPCR results of TGFB target genes after SMAD2/3 inhibition with SB inhibitor.
+
 - **UV-DHDS_functions.R**  
   Collection of custom R functions and wrapper utilities used throughout the analysis pipeline. Many analytical steps call reusable functions from this script for enhanced reproducibility and code modularity.
 
