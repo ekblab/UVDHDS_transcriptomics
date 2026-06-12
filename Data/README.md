@@ -43,7 +43,7 @@ Files in this directory provide the basis for all analyses presented in the repo
 - **IPA_upstream_regulators.xlsx**  
   IPA results table with predicted upstream regulators and associated statistical metrics.
 
-- **SMAD_inhibition_treatment**
+- **SMAD_inhibition_treatment**  
   ddCT values of qPCRs to detect TGF-beta target genes after SMAD inhibition with SB-inhibitor.
 
 ---
