@@ -26,46 +26,26 @@ DscMarkerGenes   <- markerGenes[markerGenes$TYPE == "DSCs",]$SYMBOL
 FibroMarkerGenes <- markerGenes[markerGenes$TYPE == "Fibroblasts",]$SYMBOL
 SkinMarkerGenes  <- c(McMarkerGenes, DscMarkerGenes, FibroMarkerGenes)
 
-## load data in the same order as the metadata rows
-counts_20240924 <- read.table(file = 'Data/UV-DHDS_count_matrix_EKB_20240924_lexogen_20241016.tsv', sep = '\t', header = TRUE)[,-1]
-counts_20250410 <- read.table(file = 'Data/UV-DHDS_count_matrix_EKB_20250410_lexogen_20250428.tsv', sep = '\t', header = TRUE)[,-1]
-
-## combine data into merged counts
-counts_merged <- merge(counts_20240924, counts_20250410, by = "gene_id")
+counts <- read.table(file = 'Data/UV-DHDS_mRNA_counts.tsv', sep = '\t', header = TRUE)
 
 ## convert counts into matrix
-counts_merged <- column_to_rownames(counts_merged, "gene_id") 
+counts <- as.matrix(column_to_rownames(as.data.frame(counts), "gene_id"))
 
-## assign coldata and filter colData to only include controls samples
-colData <- read_csv("Data/metadata_mRNA.csv") %>% 
-  filter(!run %in% "TUD" & !is.na(ID) & !is.na(run) & run != "library failed") %>% 
-  mutate(ID = ifelse(run %in% c("EKB_20250410", "EKB_20250417"), tolower(ID), ID)) %>%  
-  filter(irradiation == "control") %>%
-  mutate(sample = str_remove(sample, "_\\d+h")) %>%
-  dplyr::select(-c(condition, irradiation)) 
-
-## reformat colnames and coldata to share the same naming convention
-colnames(counts_merged) <- str_replace_all(colnames(counts_merged), "\\.|-", "_")
-colData$ID <- str_replace_all(colData$ID, "\\.|-", "_")
-
-## remove unused counts
-counts_filtered <- counts_merged[,colnames(counts_merged) %in% colData$ID]
-  
-## reorder colData based on numerical values (only the )
-colData[colData$run %in% c("EKB_20250410", "EKB_20250417"),] <- colData[colData$run %in% c("EKB_20250410", "EKB_20250417"),][stringr::str_order(colData[colData$run %in% c("EKB_20250410", "EKB_20250417"),]$ID, numeric = T),]
+## load metadata
+colData <- read_csv("Data/metadata_mRNA_GEO.csv")
 
 ## assign collapsing string for collapseReplicates
-colData$collapse <- paste(colData$run, colData$time, sep = "_")
+colData$collapse <- paste(colData$run, colData$replicate, sep = "_")
 
 ## check whether counts names and colData are ordered in the same way
-if(all(toupper(colnames(counts_filtered)) == toupper(colData$ID))) {
+if(all(colnames(counts) == colData$ID)) {
   message("Counts matrix and colData object share the same identifiers in the correct order")
 } else {
   stop("There are discrepancies between the counts matrix and the colData object.")
 }
 
 ## construct summarized experiment object
-se <- SummarizedExperiment(assays= as.matrix(counts_filtered), colData=colData)
+se <- SummarizedExperiment(assays = as.matrix(counts), colData = colData)
 seColl <- collapseReplicates(se, se$sample, se$collapse)
 
 ##*********************************************************************************************************
@@ -96,7 +76,8 @@ vsd_raw <- vst(dds, blind = FALSE)
 ## remove batch effect
 vsd_adjusted <- vsd_raw
 mat <- assay(vsd_adjusted)
-mat <- limma::removeBatchEffect(mat, vsd_adjusted[["run"]])
+design_viz <- model.matrix( ~ cell,  data = as.data.frame(colData(vsd_adjusted)))
+mat <- limma::removeBatchEffect(mat, vsd_adjusted[["run"]], design = design_viz)
 assay(vsd_adjusted) <- mat
 mat <- NULL
 
@@ -131,3 +112,21 @@ processed_data <- list(dds = dds,
 
 ## processsed data
 saveRDS(processed_data, "Data/processed_data_mRNA.rds")
+
+# colData_geo <- colData %>% mutate(time = ifelse(time == "6h", "rep1", "rep2"))
+# colnames(colData_geo)[5] <- "replicate"
+# colData_geo <- colData_geo %>% dplyr::select(-c(`Irradiation date`,cell_passage, entity))
+# colData_geo <- colData_geo
+# colData_geo <- colData_geo %>% mutate(sample = str_replace_all(.$sample, "_control", "")) %>%
+#   mutate(ID_new = paste(.$sample, .$run, sep = "_"))
+# colData_geo$ID_old <- colData$ID
+# colData_geo$ID <- colData_geo$ID_new
+# colData_geo$ID_new <- NULL
+# colData_geo$ID <- str_remove(paste(colData_geo$ID, colData_geo$replicate, sep = "_"), "rep")
+# 
+# colData_geo %>% dplyr::select(-c(paired_end, pf_reads_sample_percent, seed_date, harvest_date, rna_extract_date, collapse)) %>% write.csv("metadata_mRNA_GEO.csv")
+# 
+# colnames(counts_filtered) <- colData_geo$ID
+# 
+# counts_filtered %>% rownames_to_column("gene_id") %>% write_tsv("UV-DHDS_counts.tsv")
+

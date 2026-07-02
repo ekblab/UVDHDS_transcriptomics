@@ -36,6 +36,9 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
+# R 4.5.1 starting script
+start_R_4-5-1.sh
+
 # R Environment Variables
 .Renviron
 
@@ -50,6 +53,11 @@ rsconnect/
 
 # development folder
 Dev/
+
+# archives
+Data/archive
+R/archive
+
 
 # Results folder
 Results/

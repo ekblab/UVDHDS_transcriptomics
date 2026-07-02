@@ -17,38 +17,30 @@ library(ekbSeq) ## install with devtools::install_github("https://github.com/MBe
 source("R/UV-DHDS_functions.R")
 
 ## load data in the same order as the metadata rows
-counts <- read.table(file = 'Data/UV-DHDS_mirna_counts_mirtop.tsv', sep = '\t', header = TRUE)
-# counts_hairpin_edgeR <- read_edgeR_counts('Data/hairpin_counts_edgeR.csv')
+counts <- read.table(file = 'Data/archive/UV-DHDS_miRNA_counts.tsv', sep = '\t', header = TRUE)
 
 ## convert counts into matrix
-counts <- column_to_rownames(counts, "miRNA") 
-
-## reorder counts based on numerical order
-counts <- counts[,stringr::str_order(colnames(counts), numeric = T)]
+counts <- as.matrix(column_to_rownames(as.data.frame(counts), "miRNA"))
 
 ## assign coldata
-colData <- read_csv("Data/metadata_miRNA.csv") %>% 
-  filter(!is.na(run)) %>% 
-  filter(irradiation == "control") %>%
-  mutate(sample = str_remove(sample, "_\\d+h")) %>%
-  dplyr::select(-c(condition, irradiation)) 
+colData <- read_csv("Data/metadata_miRNA_GEO.csv") 
 
-## remove unused counts
-counts_filtered <- counts[,colnames(counts) %in% tolower(colData$ID)]
-
-## reorder colData based on numerical values (only the )
-colData <- colData[stringr::str_order(colData$ID, numeric = T),]
+# ## remove unused counts
+# counts_filtered <- counts[,colnames(counts) %in% tolower(colData$ID)]
+# 
+# ## reorder colData based on numerical values (only the )
+# colData <- colData[stringr::str_order(colData$ID, numeric = T),]
 
 ## check whether counts names and colData are ordered in the same way
-if(all(toupper(colnames(counts_filtered)) == toupper(colData$ID))) {
+if(all(colnames(counts) == colData$ID)) {
   message("Counts matrix and colData object share the same identifiers in the correct order")
 } else {
   stop("There are discrepancies between the counts matrix and the colData object.")
 }
 
 ## construct summarized experiment object
-se <- SummarizedExperiment(assays= as.matrix(counts_filtered), colData=colData)
-seColl <- collapseReplicates(se, se$sample, se$time)
+se <- SummarizedExperiment(assays= as.matrix(counts), colData=colData)
+seColl <- collapseReplicates(se, se$sample, se$replicate)
 
 ##*********************************************************************************************************
 ## Set thresholds and variable names and perform DE analysis
