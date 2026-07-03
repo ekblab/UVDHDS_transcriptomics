@@ -1,4 +1,4 @@
-# Processing Folder for UVDHDS_transcriptomics
+﻿# Processing Folder for UVDHDS_transcriptomics
 
 This folder contains all pipelines, command-line scripts, and configuration files used for processing raw sequencing data into count matrices for the UVDHDS_transcriptomics project.  
 It is subdivided into workflows for mRNA/lncRNA (using Kangaroo-optimized scripts) and miRNA (using nf-core/smRNAseq), fully documenting every reproducible processing step from raw FASTQ files to quantification output.
@@ -59,10 +59,10 @@ The **miRNA_smRNAseq** subfolder contains:
   Template bash script to execute the nf-core/smRNAseq pipeline (e.g., Nextflow with Docker), specifying project settings and sample sheet locations.
 
 - **make_sample_sheet.R** and **samplesheet.csv**  
-  R script to auto-generate a samplesheet compatible with nf-core/smRNAseq, and an example samplesheet as input.
+  R script to auto-generate a samplesheet compatible with nf-core/smRNAseq, and an example samplesheet as input. The path specified in the sample sheet should contain the respective fastq files for the analysis.
 
 - **Logs/**  
-  Subfolder storing all Nextflow, software, and pipeline output logs for full transparency and reproducibility.
+  Subfolder storing all Nextflow, software, and pipeline output logs, version numbers and pipeline specifications for full transparency and reproducibility.
 
 ---
 
