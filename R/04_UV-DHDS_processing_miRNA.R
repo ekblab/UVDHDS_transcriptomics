@@ -17,7 +17,7 @@ library(ekbSeq) ## install with devtools::install_github("https://github.com/MBe
 source("R/UV-DHDS_functions.R")
 
 ## load data in the same order as the metadata rows
-counts <- read.table(file = 'Data/archive/UV-DHDS_miRNA_counts.tsv', sep = '\t', header = TRUE)
+counts <- read.table(file = 'Data/UV-DHDS_miRNA_counts.tsv', sep = '\t', header = TRUE)
 
 ## convert counts into matrix
 counts <- as.matrix(column_to_rownames(as.data.frame(counts), "miRNA"))
