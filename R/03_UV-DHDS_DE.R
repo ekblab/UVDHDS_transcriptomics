@@ -131,7 +131,7 @@ go_upregulated_reduced <- reduce_go_rrvgo(go_upregulated)
 ## plot and save bubble plots
 p <- bubble_plot_clusterprofiler_style(go_upregulated_reduced, name_col = "term", score_col = "GeneRatio", pval_col = "p.adjust", genes_col = "geneID", 
                                   name_label = "enriched GO terms in melanocytes", rotate_x = TRUE)
-export_plot_dual("Results/mRNA/GOBP/upregulated_GOBP", p, width = 5.6, height = 4)
+export_plot_dual("Results/mRNA/GOBP/upregulated_GOBP", p, width = 7, height = 4, raster = FALSE)
 
 ## save results lists
 write.csv(go_upregulated, "Results/mRNA/GOBP/upregulated_GOBP_all_terms.csv")
@@ -147,7 +147,7 @@ go_downregulated_reduced <- reduce_go_rrvgo(go_downregulated)
 ## plot and save bubble plots
 p <- bubble_plot_clusterprofiler_style(go_downregulated_reduced, name_col = "term", score_col = "GeneRatio", pval_col = "p.adjust", genes_col = "geneID", 
                                        name_label = "enriched GO terms in DSCs", rotate_x = TRUE)
-export_plot_dual("Results/mRNA/GOBP/downregulated_GOBP", p, width = 6.2, height = 4)
+export_plot_dual("Results/mRNA/GOBP/downregulated_GOBP", p, width = 7, height = 4, raster = FALSE)
 
 ## save results lists
 write.csv(go_downregulated, "Results/mRNA/GOBP/downregulated_GOBP_all_terms.csv")

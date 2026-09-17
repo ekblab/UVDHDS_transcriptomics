@@ -68,7 +68,7 @@ labSize   <- 5
 dat_volcano <- as.data.frame(dat_volcano) %>%
   mutate(SYMBOL = str_replace_all(.$SYMBOL, "hsa-", ""))
 # this only serves as diagnostic and representation tool. the actual fold change thresholds and pvalues change later due to the way the results function works
-p <- plot_volcano(dat_volcano, title = "Melanocytes vs. DSCs", xlim = c(-12, 12), labSize = labSize, raster = TRUE)
+p <- plot_volcano(dat_volcano, title = "Melanocytes vs. DSCs", labSize = labSize, raster = TRUE)
 export_plot_dual("Results/miRNA/volcano_topSignif", p, width = 10, height = 8)
 
 ## plot targets of lncRNA
@@ -123,7 +123,7 @@ Ht <- Heatmap(datScaled,col= col_fun,
               show_row_names =  FALSE,
               show_column_names = TRUE,
               column_names_gp = gpar(fontsize = 10),
-              column_title = paste("Differentially Expressed genes (", nrow(sigRes), ")", sep =""),
+              column_title = paste("Differentially Expressed miRNAs (", nrow(sigRes), ")", sep =""),
               heatmap_legend_param = list(
                 title = "row Z-score",
                 at = seq(-2,2,by=1),
@@ -154,9 +154,11 @@ allRes$SYMBOL <- str_remove(allRes$SYMBOL, "hsa-")
 allRes$ENSEMBL <- str_remove(allRes$ENSEMBL, "hsa-")
 rownames(allRes) <- str_remove(rownames(allRes), "hsa-")
 
-p <- plot_control_expression_comparison(vsd_raw, allRes, merge.plots = TRUE, genes = c("miR-204-5p", "miR-1268a", "miR-338-3p", "miR-27b-3p", 
+p <- plot_control_expression_comparison(vsd_raw, allRes, merge.plots = TRUE, genes = c("miR-204-5p", "miR-27b-3p", 
                                                                                        "miR-18a-5p",  "miR-31-5p", "miR-146a-5p",  "miR-146b-5p", 
-                                                                                       "miR-125a-3p", "miR-125b-5p", "miR-125b-2-3p",  "miR-137",
-                                                                                       "miR-210-3p", "miR-340", "miR-381-3p","miR-211-5p", "miR-127-3p")) 
+                                                                                       "miR-125b-5p", "miR-137",  "miR-582-3p", "miR-582-5p", "miR-17-5p",
+                                                                                       "miR-210-3p", "miR-381-3p","miR-211-5p", "miR-127-3p")) 
 export_plot_dual("Results/miRNA/TGF_beta_network_boxplots_miRNA", p, width = 7, height = 2.8)
+
+
 

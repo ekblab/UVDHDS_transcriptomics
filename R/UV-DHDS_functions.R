@@ -442,7 +442,7 @@ bubble_plot_clusterprofiler_style <- function(
     pval_col = "p.adjust",
     genes_col = "geneID",
     top_n = 20,
-    color_scale = c("lightgrey", "#CD534CFF"),
+    color_scale = c("lightgrey", "#4292C6"),
     size_range = c(3, 10),
     name_label = "Terms",
     rotate_x = FALSE
@@ -451,7 +451,7 @@ bubble_plot_clusterprofiler_style <- function(
   if (!requireNamespace("ggplot2", quietly = TRUE)) stop("ggplot2 required but not installed")
   if (!requireNamespace("dplyr", quietly = TRUE)) stop("dplyr required but not installed")
   if (!requireNamespace("rlang", quietly = TRUE)) stop("rlang required but not installed")
-  
+
   stopifnot(is.data.frame(df))
   stopifnot(all(c(name_col, score_col, pval_col, genes_col) %in% colnames(df)))
   
@@ -543,5 +543,5 @@ bubble_plot_clusterprofiler_style <- function(
   }
   
   return(p)
-
+}
 

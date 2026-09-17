@@ -67,6 +67,7 @@ attr(dds, "thresholds") <- list(
   lfc = lfcThres
 )
 
+
 ##*********************************************************************************************************
 ## Data transformation
 
@@ -91,12 +92,21 @@ anno <- anno %>% filter(!duplicated(ENSEMBL))
 colnames(anno)[colnames(anno) == "GENETYPE"] <- "GENETYPE_AnnoDBI"
 
 ## annotate gene IDs
-mart <- useMart('ENSEMBL_MART_ENSEMBL')
-mart <- useDataset('hsapiens_gene_ensembl', mart)
+# mart <- useMart('ENSEMBL_MART_ENSEMBL')
+# mart <- useDataset('hsapiens_gene_ensembl', mart)
+mart <- useMart(
+  biomart = "ENSEMBL_MART_ENSEMBL",
+  dataset = "hsapiens_gene_ensembl",
+  host = "https://sep2025.archive.ensembl.org",
+  path = "/biomart/martservice",
+  port = 443,
+  verbose = TRUE
+)
 anno_bm <- getBM(mart = mart, attributes = c('ensembl_gene_id',  'hgnc_symbol', 'entrezgene_id', 'gene_biotype'), uniqueRows = TRUE) %>% 
   dplyr::select(ensembl_gene_id, gene_biotype) %>%
   dplyr::filter(!duplicated(ensembl_gene_id)) %>%
   setNames(c("ENSEMBL", "GENETYPE_biomaRt")) 
+
 
 ## combine annotations from annoDBI and biomaRt. Add RP4 as a name as it was detected in IPA workflow
 anno <- anno %>% left_join(anno_bm)
@@ -112,21 +122,4 @@ processed_data <- list(dds = dds,
 
 ## processsed data
 saveRDS(processed_data, "Data/processed_data_mRNA.rds")
-
-# colData_geo <- colData %>% mutate(time = ifelse(time == "6h", "rep1", "rep2"))
-# colnames(colData_geo)[5] <- "replicate"
-# colData_geo <- colData_geo %>% dplyr::select(-c(`Irradiation date`,cell_passage, entity))
-# colData_geo <- colData_geo
-# colData_geo <- colData_geo %>% mutate(sample = str_replace_all(.$sample, "_control", "")) %>%
-#   mutate(ID_new = paste(.$sample, .$run, sep = "_"))
-# colData_geo$ID_old <- colData$ID
-# colData_geo$ID <- colData_geo$ID_new
-# colData_geo$ID_new <- NULL
-# colData_geo$ID <- str_remove(paste(colData_geo$ID, colData_geo$replicate, sep = "_"), "rep")
-# 
-# colData_geo %>% dplyr::select(-c(paired_end, pf_reads_sample_percent, seed_date, harvest_date, rna_extract_date, collapse)) %>% write.csv("metadata_mRNA_GEO.csv")
-# 
-# colnames(counts_filtered) <- colData_geo$ID
-# 
-# counts_filtered %>% rownames_to_column("gene_id") %>% write_tsv("UV-DHDS_counts.tsv")
 
